@@ -1,10 +1,10 @@
 import { Request as req, Response as res, NextFunction as next } from "express";
-import { Zones, ZonesModel } from "../models/ZoneModel";
+import { Zones, ZoneModel } from "../models/ZoneModel";
 
 export = {
   getAllZones: async (req: req, res: res, next: next) => {
     try {
-      const Zone = new ZonesModel();
+      const Zone = new ZoneModel();
       let result = await Zone.getAllData();
       return res.json(result);
     } catch (error) {
@@ -14,7 +14,7 @@ export = {
 
   getZoneByID: async (req: req, res: res, next: next) => {
     try {
-      const Zone = new ZonesModel();
+      const Zone = new ZoneModel();
       let result = await Zone.getOneDataByID(parseInt(req.params.id));
       return res.json(result);
     } catch (error) {
@@ -26,7 +26,7 @@ export = {
     try {
       const data: Zones = req.body;
       data.createdBy = req.user?.uid;
-      const Zone = new ZonesModel(data);
+      const Zone = new ZoneModel(data);
       let result = await Zone.createData();
       return res.status(201).json(result);
     } catch (error) {
@@ -38,7 +38,7 @@ export = {
     try {
       const data: Zones = req.body;
       data.updatedBy = req.user?.uid;
-      const Zone = new ZonesModel(data);
+      const Zone = new ZoneModel(data);
       let result = await Zone.updateData(data.id ?? 0);
       return result !== null
         ? res.json(result)
@@ -50,7 +50,7 @@ export = {
 
   deleteZone: async (req: req, res: res, next: next) => {
     try {
-      const Zone = new ZonesModel();
+      const Zone = new ZoneModel();
       let result = await Zone.deleteData(parseInt(req.params.id ?? 0));
 
       return result !== null

@@ -1,5 +1,5 @@
 import { client } from "../config/db";
-import { user_gender } from "@prisma/client";
+import { userinformations_gender } from "@prisma/client";
 import { CRUDModel } from "../interface/CRUD";
 import { Roles } from "./RoleModel";
 import { calculPage } from "../config/func";
@@ -30,7 +30,7 @@ export interface UserInfor {
   villId: number | null;
   firstName: string | null;
   lastName: string | null;
-  gender: user_gender | null;
+  gender: userinformations_gender | null;
   birtday: Date | null;
   tel: string | null;
   isDelete?: Boolean | null;
@@ -51,7 +51,7 @@ export class UserInforModel implements UserInfor, CRUDModel {
   villId: number | null;
   firstName: string | null;
   lastName: string | null;
-  gender: user_gender | null;
+  gender: userinformations_gender | null;
   birtday: Date | null;
   tel: string | null;
   createdBy: string | null;
@@ -65,7 +65,8 @@ export class UserInforModel implements UserInfor, CRUDModel {
     this.villId = data?.villId != (null || undefined) ? data.villId : null;
     this.firstName = data?.firstName != undefined ? data.firstName : null;
     this.lastName = data?.lastName != undefined ? data.lastName : null;
-    this.gender = data?.gender != undefined ? data.gender : user_gender.male;
+    this.gender =
+      data?.gender != undefined ? data.gender : userinformations_gender.male;
     this.birtday =
       data?.birtday != undefined
         ? new Date(data?.birtday)

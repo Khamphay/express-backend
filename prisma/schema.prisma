@@ -74,17 +74,17 @@ model branches {
 
 model districts {
   id               Int                @id @default(autoincrement())
-  prId             Int
+  proId            Int
   name             String             @db.VarChar(100)
   createdAt        DateTime           @default(now()) @db.Timestamp(0)
   updatedAt        DateTime?          @default(now()) @db.Timestamp(0)
   branches         branches[]
-  provinces        provinces          @relation(fields: [prId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  provinces        provinces          @relation(fields: [proId], references: [id], onDelete: Cascade, onUpdate: Restrict)
   merchants        merchants[]
   userinformations userinformations[]
   villages         villages[]
 
-  @@index([prId], map: "districts_prId_fkey")
+  @@index([proId], map: "districts_prId_fkey")
 }
 
 model employees {
@@ -143,7 +143,7 @@ model possitions {
   updatedAt DateTime?   @default(now()) @db.Timestamp(0)
   employees employees[]
 
-  @@unique([id, isDelete])
+  @@unique([id, isDelete], name: "findOne")
 }
 
 model provinces {
@@ -253,12 +253,12 @@ model units {
   updatedAt   DateTime?     @default(now()) @db.Timestamp(0)
   billdetails billdetails[]
 
-  @@unique([id, isDelete])
+  @@unique([id, isDelete], name: "findOne")
   @@index([name, isDelete], map: "check_unit_duplicates")
 }
 
 model userinformations {
-  uid       String                  @id @db.Char(36)
+  uid       String                  @id @default(uuid()) @db.Char(36)
   firstName String                  @db.VarChar(100)
   lastName  String                  @db.VarChar(100)
   gender    userinformations_gender
@@ -307,7 +307,7 @@ model users {
 model villages {
   id               Int                @id @default(autoincrement())
   zoneId           Int?
-  disId            Int
+  distId           Int
   name             String             @db.VarChar(255)
   isDelete         Boolean?           @default(false)
   createdBy        String             @db.Char(36)
@@ -316,10 +316,10 @@ model villages {
   updatedAt        DateTime?          @default(now()) @db.Timestamp(0)
   userinformations userinformations[]
   zones            zones?             @relation(fields: [zoneId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "villages_ibfk_1")
-  districts        districts          @relation(fields: [disId], references: [id], onUpdate: Restrict, map: "villages_ibfk_2")
+  districts        districts          @relation(fields: [distId], references: [id], onUpdate: Restrict, map: "villages_ibfk_2")
 
-  @@unique([id, isDelete])
-  @@index([disId], map: "disId")
+  @@unique([id, isDelete], name: "findOne")
+  @@index([distId], map: "distId")
   @@index([zoneId], map: "zoneId")
 }
 
@@ -333,7 +333,7 @@ model zones {
   updatedAt DateTime?  @default(now()) @db.Timestamp(0)
   villages  villages[]
 
-  @@unique([id, isDelete])
+  @@unique([id, isDelete], name: "findOne")
 }
 
 enum bills_billType {
